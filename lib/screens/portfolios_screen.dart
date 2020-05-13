@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:port_viewer/common/utils.dart';
+import 'package:port_viewer/screens/stocks_screen.dart';
 
 class PortfoliosScreen extends StatefulWidget {
   @override
@@ -11,7 +12,6 @@ class PortfoliosScreen extends StatefulWidget {
 
 class _PortfoliosScreenState extends State<PortfoliosScreen> {
   Future _ports;
- 
 
   Future<List<dynamic>> getPorts() async {
     final url = Uri.http("localhost:5000", "/api/");
@@ -32,15 +32,8 @@ class _PortfoliosScreenState extends State<PortfoliosScreen> {
         body: FutureBuilder(
           future: _ports,
           builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return Text('none');
-              case ConnectionState.active:
-                return Text('active');
-              case ConnectionState.waiting:
-                return Text('waiting');
-              case ConnectionState.done:
-                return ListView.builder(
+            return snapshot.connectionState == ConnectionState.done
+                ? ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, i) {
                       return ListTile(
@@ -55,14 +48,14 @@ class _PortfoliosScreenState extends State<PortfoliosScreen> {
                         ),
                         trailing: Text(
                             '\$${currency.format(snapshot.data[i]['proceeds'])}'),
-                        onTap: () => Navigator.of(context).pushNamed(
-                            "StocksScreen",
-                            arguments: snapshot.data[i]['name']),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    StocksScreen(snapshot.data[i]['name']))),
                       );
-                    });
-              default:
-                return Text('default');
-            }
+                    })
+                : Center(child: CircularProgressIndicator());
           },
         ));
   }

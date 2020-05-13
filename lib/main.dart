@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:port_viewer/screens/portfolios_screen.dart';
-import 'package:port_viewer/screens/positions_screen.dart';
-import 'package:port_viewer/screens/stocks_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,10 +15,6 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: PortfoliosScreen(),
-      routes: {
-        "StocksScreen": (context) => StocksScreen(),
-        "PositionsScreen": (context) => PositionsScreen(),
-      }
     );
   }
 }
