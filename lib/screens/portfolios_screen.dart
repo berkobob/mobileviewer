@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:port_viewer/common/utils.dart';
 import 'package:port_viewer/screens/stocks_screen.dart';
 
@@ -13,16 +10,10 @@ class PortfoliosScreen extends StatefulWidget {
 class _PortfoliosScreenState extends State<PortfoliosScreen> {
   Future _ports;
 
-  Future<List<dynamic>> getPorts() async {
-    final url = Uri.http("localhost:5000", "/api/");
-    final response = await http.get(url);
-    return json.decode(response.body) as List<dynamic>;
-  }
-
   @override
   void initState() {
     super.initState();
-    _ports = getPorts();
+    _ports = getData('/');
   }
 
   @override

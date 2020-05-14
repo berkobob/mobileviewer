@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:port_viewer/common/utils.dart';
+import 'package:port_viewer/screens/trades_screen.dart';
 
 class PositionsScreen extends StatefulWidget {
   final String port;
@@ -40,8 +41,15 @@ class _PositionsScreenState extends State<PositionsScreen> {
                           title: Text(snapshot.data[i]['position']),
                           trailing: Text(
                               '${currency.format(snapshot.data[i]['proceeds'])}'),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TradesScreen(
+                                      snapshot.data[i]['_id'],
+                                      snapshot.data[i]['position']))),
                         );
-                      })
+                      },
+                    )
                   : Center(
                       child: CircularProgressIndicator(),
                     );

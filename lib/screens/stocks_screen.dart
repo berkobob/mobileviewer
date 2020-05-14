@@ -31,24 +31,61 @@ class _StocksScreenState extends State<StocksScreen> {
                 ? ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, i) {
-                      return ListTile(
-                          title: Text(snapshot.data[i]['stock']),
-                          subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return InkWell(
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Row(
                             children: <Widget>[
-                              Text('Open: ${snapshot.data[i]['open']}'),
-                              Text('Closed: ${snapshot.data[i]['closed']}'),
+                              Flexible(
+                                flex: 5,
+                                fit: FlexFit.tight,
+                                child: Text('${snapshot.data[i]['stock']}'),
+                              ),
+                              Flexible(
+                                flex: 10,
+                                fit: FlexFit.tight,
+                                child: Text(
+                                  'Open: ${currency.format(snapshot.data[i]['risk'])}',
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Flexible(
+                                flex: 5,
+                                fit: FlexFit.tight,
+                                child: Text(
+                                  ' : ${snapshot.data[i]['open']}',
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Flexible(
+                                flex: 10,
+                                fit: FlexFit.tight,
+                                child: Text(
+                                  'Closed: ${currency.format(snapshot.data[i]['proceeds'])} : ',
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Flexible(
+                                flex: 2,
+                                fit: FlexFit.tight,
+                                child: Text(
+                                  '${currency.format(snapshot.data[i]['closed'])}',
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
                             ],
                           ),
-                          trailing: Text(
-                              '${currency.format(snapshot.data[i]['proceeds'])}'),
-                          onTap: () => Navigator.push(
+                        ),
+                        onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PositionsScreen(
                                       snapshot.data[i]['port'],
-                                      snapshot.data[i]['stock']))));
-                    })
+                                      snapshot.data[i]['stock']))),
+                      );
+                    },
+                  )
                 : Center(child: CircularProgressIndicator());
           }),
     );
